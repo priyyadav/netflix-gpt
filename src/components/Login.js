@@ -1,16 +1,29 @@
 import { Browse } from "./Browse";
 import { BG_URL } from "../utils/constant";
 import { Header } from "./Header";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import {checkValidData} from '../utils/validate'
 const Login=()=>
 {
     const [isSignInForm, setIsSignForm]=useState(true)
+    const [errorMessage, setErrorMessage]=useState(null)
+    const email=useRef(null);
+    const password=useRef(null);
     const toggleSignInForm=()=>
     {
         setIsSignForm(prevstate=>
             {
                 return !prevstate
             })
+    }
+    const handleValidation=()=>
+    {
+            console.log(email.current.value)
+            console.log(password.current.value)
+           const message= checkValidData(email.current.value, password.current.value
+                )
+
+                setErrorMessage(message)
     }
     return(
         <div>
@@ -34,21 +47,21 @@ className="p-4 my-4 w-full bg-gray-700"
            
    
           <input
-    
+             ref={email}
             type="text"
             placeholder="Email Address"
             className="p-4 my-4 w-full bg-gray-700"
           />
           <input
-     
+        ref={password}
             type="password"
             placeholder="Password"
             className="p-4 my-4 w-full bg-gray-700"
           />
-          {/* <p className="text-red-500 font-bold text-lg py-2">{errorMessage}</p> */}
+          <p className="text-red-500 font-bold text-lg py-2">{errorMessage}</p>
           <button
             className="p-4 my-6 bg-red-700 w-full rounded-lg"
-        
+          onClick={handleValidation}
           >
             {isSignInForm ? "Sign In" : "Sign Up"}
           </button>
